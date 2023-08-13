@@ -1,16 +1,17 @@
 from flask import Flask, render_template, request, url_for, redirect, send_from_directory
-#from firebase_admin import db
-import json
+from PasswordManager import PasswordManager as pm 
+
+import json, bcrypt
 
 app = Flask(__name__)
-#ref = db.reference("/") #Firebase instructions taken from https://www.freecodecamp.org/news/how-to-get-started-with-firebase-using-python/
 
 #Login page
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        password = request.form.get('password')
         email = request.form.get('email')
+        password = request.form.get('password')
+        
     return render_template('./login.html')
 
 #Chat page

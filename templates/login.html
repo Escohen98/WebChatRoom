@@ -6,19 +6,24 @@
 <title>Interactive Appliance</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="../static/login.css">
+<script src="https://www.gstatic.com/firebasejs/9.6.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.3/firebase-auth.js"></script>
 <script src="../static/login.js"></script>
+
 </head>
 
 <body>
-<header>
-    <h1>Enter your login information. Use something fake. It's not like it really matters.
-        We're not going to check.</h1>
-    <h2> But don't worry. Your password is secure</h2>
-</header>
-<main>
-    <form action="" method="post">
-        <label for="email" id="email">Email: <input id="Email" type="email" name="email" /></label>
-        <label for="password" id="password">Password: <input type="password" name="password"/></label>
-        <input id="submit" type="submit" value="Submit" />
-    </form>
-<main>
+    <header>
+        <h1>Enter your login information. Use something fake. It's not like it really matters.
+            We're not going to check.</h1>
+        <h2> But don't worry. Your password is secure</h2>
+    </header>
+    <main>
+        <form action="" method="post" name="login-form">
+            <label for="email" id="email">Email: <input id="Email" type="email" name="email" /></label>
+            <label for="password" id="password">Password: <input type="password" name="password"/></label>
+            <input id="submit" type="submit" value="Submit" />
+        </form>
+        <p id="error-message"></p>
+    </main>
+</body>
