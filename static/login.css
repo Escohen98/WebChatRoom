@@ -22,8 +22,19 @@ label {
     margin-right: 20px;
 }
 
+/*This alignment stuff...*/
 #error-message {
     margin: 50px 50%;
     color: red;
     font-size: 25px;
+    width: 1000px;
 }
+
+#toggle-visibility {
+    margin-left: 5px;
+}
+
+/* Hides stupid lastpass */
+div[data-lastpass-icon-root] {
+    display: none;
+  }
