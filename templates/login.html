@@ -1,7 +1,24 @@
-<form>
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Interactive Appliance</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="../static/login.css">
+<script src="../static/login.js"></script>
+</head>
+
+<body>
+<header>
+    <h1>Enter your login information. Use something fake. It's not like it really matters.
+        We're not going to check.</h1>
+    <h2> But don't worry. Your password is secure</h2>
+</header>
+<main>
     <form action="" method="post">
-        <label for="username">Username: <input type="text" id="username" /></label>
-        <label for="password">Password: <input type="text" id="password" /></label>
-        <button id="submit" class="btn btn-secondary">Submit</button>
+        <label for="email" id="email">Email: <input id="Email" type="email" name="email" /></label>
+        <label for="password" id="password">Password: <input type="password" name="password"/></label>
+        <input id="submit" type="submit" value="Submit" />
     </form>
-</form>
+<main>
