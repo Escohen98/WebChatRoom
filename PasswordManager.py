@@ -1,5 +1,5 @@
 import bcrypt, firebase_admin
-import firebase_admin
+import firebase_admin, json
 from firebase_admin import credentials, auth, exceptions
 
 class PasswordManager():
@@ -29,6 +29,10 @@ class PasswordManager():
                     password=password.strip(),
                     display_name=email.strip().split("@")[0]
                 )
+
+                user_json = json.dumps({email.strip(): {"password": password.strip(), "display_name": email.strip().split("@")[0]}})
+                with open('accounts.json')
+
                 return True
             except exceptions.FirebaseError as e:
                 error_message = e.detail
@@ -75,3 +79,11 @@ class PasswordManager():
             return True
         except exceptions.FirebaseError as e:
             return False
+        
+    #Because I don't wanna Firebase
+    def register_user(username, password):
+        salt = bcrypt.gensalt()
+        hashed_salt = bcrypt.hashpw(salt, bcrypt.gensalt())  # Hashing the salt itself
+        salted_password = password.encode('utf-8') + hashed_salt
+        hashed_password = bcrypt.hashpw(salted_password, bcrypt.gensalt())
+        # Store hashed_password and hashed_salt along with other user information

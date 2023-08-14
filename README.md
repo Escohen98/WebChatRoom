@@ -34,6 +34,6 @@ Anyway, this is a web chat room for people to communicate with one another.
     ```
 
 # Dependencies
-pip3 install flask
-pip3 install firebase_admin
-pip3 install bcrypt
+pip3 install flask<br>
+pip3 install firebase_admin<br>
+pip3 install bcrypt<br>
