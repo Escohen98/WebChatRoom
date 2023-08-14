@@ -3,6 +3,36 @@ This is the epitomy of what I have been attempting to achieve through these Web 
 
 Anyway, this is a web chat room for people to communicate with one another. 
 
+# Setting Up the Database
+1. Create a local db file in the home path
+2. Queries:
+    ```sql
+    CREATE TABLE accounts (
+        user_ID INTEGER PRIMARY KEY AUTOINCREMENT, 
+        email TEXT NOT NULL UNIQUE, 
+        password TEXT NOT NULL, 
+        display_name TEXT NOT NULL UNIQUE
+        );
+    ```
+    ```sql
+    CREATE TABLE channels (
+        channel_ID INTEGER PRIMARY KEY AUTOINCREMENT, 
+        channel_name TEXT NOT NULL UNIQUE
+        );
+    ```
+    ```sql
+    CREATE TABLE messages (    
+        message_ID INTEGER PRIMARY KEY AUTOINCREMENT,    
+        channel_ID INTEGER,    
+        user_ID INTEGER,    
+        message_content TEXT NOT NULL,    
+        timestamp DATETIME NOT NULL,    
+        FOREIGN KEY (channel_ID) REFERENCES channels (channel_ID),    
+        FOREIGN KEY (user_ID) REFERENCES users (user_ID)
+        );
+    ```
+
 # Dependencies
 pip3 install flask
 pip3 install firebase_admin
+pip3 install bcrypt
