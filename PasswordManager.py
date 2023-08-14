@@ -21,10 +21,13 @@ class PasswordManager():
         if user_exists == True: #Playing it safe b/c not binary
             return user_exists
         elif user_exists == 'NOT_FOUND': #e.code
+            #Create new user
+            #Display name is first part of email
             try:
                 user = auth.create_user(
                     email=email.strip(),
-                    password=password.strip()
+                    password=password.strip(),
+                    display_name=email.strip().split("@")[0]
                 )
                 return True
             except exceptions.FirebaseError as e:
@@ -36,11 +39,39 @@ class PasswordManager():
     def check_user_exists(self,email, password):
         try:
             #Checks if user exists
-            existing_user = auth.get_user_by_email(email)
-            if auth.verify_password(existing_user.uid, password):
+            existing_user = auth.get_user_by_email(email) #Does firebase not require password verification?
+            if self.verify_user_password(existing_user.uid, password):
                 return True
             else: #Incorrect Password
                 return "Incorrect password"
         except exceptions.FirebaseError as e:  #User does not exist, create a new one 
             print(e.code)
             return e.code
+        
+    #Apparently can be used to verify the password is correct
+    #Does this by attempting to login
+    #If it works, return user if not, return false
+    def signed_in(self, user, email, password):
+        try:
+            # Sign in with email and password to verify
+            #user = auth.sign_in_with_email_and_password(uid, password)
+            # If successful, Firebase will return user data
+            # credential = auth.email_auth_provider.credential(
+            #     email,
+            #     password
+            # )
+            # #Tries to authenticate user
+            # user.reauthenticate_with_credential(credential)
+            return True
+        except exceptions.FirebaseError as e:
+            print("crap")
+            return False
+        
+    def verify_user_password(self, uid, password):
+        try:
+            # Sign in with email and password to verify
+            user = auth.sign_in_with_email_and_password(uid, password)
+            # If successful, Firebase will return user data
+            return True
+        except exceptions.FirebaseError as e:
+            return False

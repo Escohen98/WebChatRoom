@@ -4,8 +4,7 @@ from PasswordManager import PasswordManager
 import json, bcrypt
 
 app = Flask(__name__)
-user_email = "" #need this to be global to store which user it is
-user_pass = ""
+user = None
 pm = PasswordManager()
 
 #Login page
@@ -26,7 +25,28 @@ def login():
 #Chat page
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
-    return render_template('./chat.html')
+
+    #Demo purposes only.
+    channels = [
+        "<div class='channel' id='demo1' name='demo1'>\
+            <button type='button'><p class='chat-text'>demo1</p></button>\
+        </div>",
+        "<div class='channel' id='demo2' name='demo1'>\
+            <button type='button'><p class='chat-text'>demo2</p></button>\
+        </div>"
+    ]
+
+    messages = [
+        "<div id='chat-bubble' class='user'>\
+            <h2>You</h2>\
+            <p class='msg-box'>Hi</p>\
+        </div>", 
+        "<div id='chat-bubble' class='other'>\
+            <h2>Bot</h2>\
+            <p class='msg-box'>Hello</p>\
+        </div>"
+    ]
+    return render_template('./chat.html', rooms=channels, msgs=messages, room="demo1")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

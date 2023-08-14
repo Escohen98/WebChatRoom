@@ -10,8 +10,33 @@
     </head>
     <body>
         <header>
-            <h1>This is a chat room. Awesome Sauce.</h1>
-            <!-- Going to automate with Flask-->
-            <div id="chatroom" class="chatroom"></div>
+            <h1>This is a chat room. Awesome Sauce.</h1> 
         </header>
+        <main>
+          <!-- Going to automate with Flask-->
+          <section id="chat-room" class="chatroom">
+            <!-- Rooms on the left, then the chatbox on the right-->
+            <article id="chat-area">
+              <div id="rooms" class="border border-primary">
+                <button type="button" class="btn">+</button>
+                {%for room in rooms%}
+                  {{room|safe}}
+                {%endfor%}
+              </div>
+              <div id="chat-box" class="border border-primary">
+                <!-- The message bubbles -->
+                {%for msg in msgs%}
+                {{msg|safe}}
+                {%endfor%}
+              </div>
+            </article>
+            <article id="msg-box">
+              <!-- Chat bar to type messages-->
+              <div id="chat">
+                <input type="text" placeholder=" Message {{room}}" />
+                <button class="btn btn-default" id="send-btn"><img src="https://cdn0.iconfinder.com/data/icons/superglyph-communication/30/message-sending-1024.png"/> </button>
+              </div>
+            </article>
+          </section>
+        </main>
     </body>

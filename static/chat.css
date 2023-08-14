@@ -1,1 +1,99 @@
+html, body {
+    height: 100%;
+}
+main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    min-width: 100%;
+}
 
+h2 {
+    font-size: 1.2em;
+    color: blue;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: solid 1px black
+}
+
+.channel, .channel > button {
+    background-color: gray;
+    text-align: center;
+    height: 2em;
+}
+
+.channel > button {
+    width: 100%;
+    height: 100%;
+}
+
+/* Messages sent from assigned user*/
+.user {
+    background-color: rgba(0,255,0,50%);
+}
+
+/* Message sent from others */
+.other {
+    margin-left: auto;
+    background-color: rgba(125, 125, 125, 50%);
+}
+
+.chat-bubble {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.msg-box {
+    text-align: center;
+}
+
+#chat-room {
+    width: 1280px;
+    height: 720px;
+}
+
+#chat-area {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+#chat-box {
+    overflow-y: scroll; 
+    width: 80%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#chat {
+    display: flex;
+    flex-direction: row;
+}
+
+#chat > input {
+    width: 95%;
+    height: 3em;
+}
+
+#chat > button, #chat > button > img {
+    height: 3em;
+    width: auto;
+    align-self: center;
+}
+
+#rooms {
+    width: 20%;
+    height: auto;
+}
+
+#chat-bubble {
+    width: 20%;
+    margin-bottom: 5px;
+    border-radius: 10%;
+}
