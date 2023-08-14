@@ -5,6 +5,7 @@ Anyway, this is a web chat room for people to communicate with one another.
 
 # Setting Up the Database
 1. Create a local db file in the home path
+2. Open .db file: `.open {database name}.db`
 2. Queries:
     ```sql
     CREATE TABLE accounts (
