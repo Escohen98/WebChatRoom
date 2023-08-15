@@ -15,8 +15,8 @@ def login():
     message = ""
     # Pulls account info from form
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+        username = request.form.get('username').strip()
+        password = request.form.get('password').strip()
         
         # Everything happening below is so ridiculously redundant and unnecessary
         # Pretty much using a copout because this is becoming a lot...
@@ -37,7 +37,7 @@ def login():
         # Creates account. If it already exists, checks if correct password
         if new_user or db_hashed_password == existing_hashed_password:
             global user_name
-            user_name = username
+            user_name = username.strip()
             return redirect(url_for("chat"))
         
          # Checks for display name. 
@@ -63,17 +63,19 @@ def chat():
             query.create_channel(channel_name)
         elif button_value == 'send-message':
             message = request.form.get('chat-message')
-            query.insert_message(query.get_user_id(user_name), query.get_channel_id(channel), message)
-        
+            query.insert_message(query.get_channel_id(channel), query.get_user_id(user_name), message)
+        elif button_value == 'change-channel':
+            channel_name = request.form.get(f"unique-id-{channel}")
+            #To-Do
 
     # Gets channels from database
-    channel_html = ch.get_channel_html(query)
+    channel_html = ch.get_channel_html(query, channel)
     
     # Theoretically should never hit unless I force it to
     if channel_html == False:
         return redirect(url_for("fourohfour"))
     message_html = ch.get_message_html(query, user_name, channel)
-    return render_template('./chat.html', rooms=channel_html, msgs=message_html, room="demo1")
+    return render_template('./chat.html', rooms=channel_html, msgs=message_html, room=channel, username=user_name)
 
 @app.route('/bad')
 def bad():

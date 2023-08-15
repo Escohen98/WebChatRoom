@@ -87,6 +87,7 @@ class Query():
     # Returns in a dictionary of the display name and message in ascending order by timestamp
     # If there's an error, returns empty array b/c there doesn't have to be any messages
     def fetch_messages(channel_name):
+        print("here")
         try:
             conn = sqlite3.connect('chatroom.db')
             cursor = conn.cursor()
@@ -105,6 +106,7 @@ class Query():
             messages_list = []
 
             for row in result_set:
+                print(row)
                 message_content, display_name = row
                 message_dict = {"message_content": message_content, "display_name": display_name}
                 messages_list.append(message_dict)

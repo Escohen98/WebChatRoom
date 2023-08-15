@@ -5,16 +5,22 @@ class ChatHandler():
     # Builds the channel_html 
     # Returns channel html or false if no channels
     # There should always be a channel
-    def get_channel_html(query):
+    def get_channel_html(query, selected_channel):
         channels = query.fetch_channels()
         if len(channels) == 0: # Forcing it even though 404 redirects should be automatic
             return False
         channel_html = []
         for channel in channels:
             channel = channel[0]
-            html = """<div class='channel' id='%s' name='%s'>
-                        <button type='button'><p class='chat-text'>%s</p></button>
-                    </div>""" % (channel, channel, channel)
+            selected = ""
+
+            #Allows me to edit the properties of the selected channel
+            if channel == selected_channel:
+                selected = "selected"
+            #The ID is dicey here because there could be overlap with other ids potentially.
+            html = """<div class='channel' id='unique-id-%s' name='unique-id-%s'>
+                        <button type='submit'><p class='chat-text %s'>%s</p></button>
+                    </div>""" % (channel, channel, selected, channel)
             channel_html.append(html)
         return channel_html
     
@@ -25,10 +31,11 @@ class ChatHandler():
         # message_content, display_name
         messages = query.fetch_messages(channel_name)
         message_html = []
+        print("username: ", username)
         for message in messages:
-            message = message[0]
             html_class = "other"
-            h2 = username
+            h2 = message["display_name"]
+            print(message)
             if message["display_name"] == username:
                 html_class = "user"
                 h2 = "You"            

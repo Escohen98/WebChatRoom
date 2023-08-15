@@ -50,6 +50,11 @@ h2 {
     text-align: center;
 }
 
+.selected {
+    background-color: cyan;
+    font-weight: 'Strong'
+}
+
 #chat-room {
     width: 1280px;
     height: 720px;
@@ -118,4 +123,12 @@ h2 {
 #channel-btns {
     display: flex;
     flex-direction: row;
+}
+
+#name {
+    font-size: 30px;
+}
+
+#your-name {
+    font-weight: 'Strong'
 }

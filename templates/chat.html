@@ -13,6 +13,7 @@
 <body>
     <header>
         <h1>This is a chat room. Awesome Sauce.</h1> 
+        <p id="name">Your name is: <span id="your-name">{{username}}</span></p>
     </header>
     <main>
         <!-- Going to automate with Flask-->
@@ -21,9 +22,13 @@
             <article id="chat-area">
                 <div id="rooms" class="border border-primary">
                     <label><button type="button" class="btn btn-secondary" id="add-btn">+</button> New Channel</label>
-                    {% for room in rooms %}
-                    {{ room|safe }}
-                    {% endfor %}
+                    <!-- To-Do-->
+                    <form action="/chat" method="post" name="change-channel" id="change-channel" >
+                      <input type="text" id="channel-option" name="channel-option" hidden/>
+                      {% for room in rooms %}
+                      {{ room|safe }}
+                      {% endfor %}
+                    </form>
                 </div>
                 <div id="chat-box" class="border border-primary">
                     <!-- The message bubbles -->
