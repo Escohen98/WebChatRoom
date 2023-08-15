@@ -6,12 +6,12 @@ class Query():
     # Also checks if account exists
     # Returns true if account exists
     # False if not
-    def create_account(hashed_password, hashed_salt, display_name):
+    def create_account(hashed_password, salt, display_name):
         try:
             # Connect to the database
             conn = sqlite3.connect('chatroom.db')
             cursor = conn.cursor()
-            cursor.execute("INSERT INTO accounts (display_name, hashed_password, hashed_salt) VALUES (?, ?, ?)", (display_name, hashed_password, hashed_salt,))
+            cursor.execute("INSERT INTO accounts (display_name, hashed_password, salt) VALUES (?, ?, ?)", (display_name, hashed_password, salt,))
             conn.commit()
             return True
         except sqlite3.IntegrityError:
@@ -31,19 +31,20 @@ class Query():
             return False
             
 
-    # Gets the hashed password of the display_name if exists
-    # Returns hashed_password or None if does not exist.
+    # Gets the hashed password and salt of the display_name if exists
+    # Returns a tuple containing hashed_password and salt, or None if not found.
     def get_hashed_password(display_name):
         try:
             conn = sqlite3.connect('chatroom.db')
             cursor = conn.cursor()
-            cursor.execute("SELECT hashed_password FROM accounts WHERE display_name = ?", (display_name,))
-            hashed_password = cursor.fetchone()
+            cursor.execute("SELECT hashed_password, salt FROM accounts WHERE display_name = ?", (display_name,))
+            result = cursor.fetchone()
             conn.close()
-            return hashed_password[0] if hashed_password else None
+            return result if result else None
         except Exception as e:
             print(e)
             return None
+
         
     # Inserts a message into the db    
     def insert_message(channel_id, user_id, message_content):

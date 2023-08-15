@@ -17,12 +17,25 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        
+        # Everything happening below is so ridiculously redundant and unnecessary
+        # Pretty much using a copout because this is becoming a lot...
 
-        # Gets hashed password and salt
-        hashed_password, hashed_salt = pm.get_salt_password(password)
+        # Gets hashed password and salt for a new user
+        hashed_password, salt = pm.get_salt_password(password)
+
+        # boolean -> Account exists or not
+        new_user = query.create_account(hashed_password, salt, username)
+
+        if not new_user:
+            # Getting the salt and hashed_password stored in the database for the given user.
+            db_hashed_password, db_salt = query.get_hashed_password(username)
+
+            # The entered password with the salt associated with the user who is logging in
+            existing_hashed_password = pm.get_salt_password(password, db_salt)[0]
 
         # Creates account. If it already exists, checks if correct password
-        if query.create_account(hashed_password, hashed_salt, username) or hashed_password == query.get_hashed_password(username):
+        if new_user or db_hashed_password == existing_hashed_password:
             global user_name
             user_name = username
             return redirect(url_for("chat"))

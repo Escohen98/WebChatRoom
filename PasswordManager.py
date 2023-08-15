@@ -9,10 +9,9 @@ class PasswordManager():
         
     # Because I don't wanna Firebase
     # Hashes the given password and returns the hashed_password and hashed_salt
-    def get_salt_password(password):
-        salt = bcrypt.gensalt()
-        hashed_salt = bcrypt.hashpw(salt, bcrypt.gensalt())  # Hashing the salt itself
+    def get_salt_password(password, salt=bcrypt.gensalt()):
+        hashed_salt = bcrypt.hashpw(salt, salt)  # Hashing the salt itself
         salted_password = password.encode('utf-8') + hashed_salt
-        hashed_password = bcrypt.hashpw(salted_password, bcrypt.gensalt())
-        return hashed_password, hashed_salt
+        hashed_password = bcrypt.hashpw(salted_password, salt)
+        return hashed_password, salt
         
