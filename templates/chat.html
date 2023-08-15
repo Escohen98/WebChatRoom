@@ -1,50 +1,63 @@
-  <!DOCTYPE HTML>
-  <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Web Chat Room</title>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-      <link rel="stylesheet" href="../static/chat.css">
-      <script src="../static/chat.js"></script>
-    </head>
-    <body>
-        <header>
-            <h1>This is a chat room. Awesome Sauce.</h1> 
-        </header>
-        <main>
-          <!-- Going to automate with Flask-->
-          <section id="chat-room" class="chatroom">
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Chat Room</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/chat.css">
+    <script src="../static/chat.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>This is a chat room. Awesome Sauce.</h1> 
+    </header>
+    <main>
+        <!-- Going to automate with Flask-->
+        <section id="chat-room" class="chatroom">
             <!-- Rooms on the left, then the chatbox on the right-->
             <article id="chat-area">
-              <div id="rooms" class="border border-primary">
-                <label><button type="button" class="btn btn-secondary" id="add-btn">+</button> New Channel</label>
-                {%for room in rooms%}
-                  {{room|safe}}
-                {%endfor%}
-              </div>
-              <div id="chat-box" class="border border-primary">
-                <!-- The message bubbles -->
-                {%for msg in msgs%}
-                {{msg|safe}}
-                {%endfor%}
-              </div>
+                <div id="rooms" class="border border-primary">
+                    <label><button type="button" class="btn btn-secondary" id="add-btn">+</button> New Channel</label>
+                    {% for room in rooms %}
+                    {{ room|safe }}
+                    {% endfor %}
+                </div>
+                <div id="chat-box" class="border border-primary">
+                    <!-- The message bubbles -->
+                    {% for msg in msgs %}
+                    {{ msg|safe }}
+                    {% endfor %}
+                </div>
             </article>
             <article id="msg-box">
-              <!-- Chat bar to type messages-->
-              <div id="chat">
-                <input type="text" placeholder=" Message {{room}}" />
-                <button class="btn btn-default" type="submit" method="post" id="send-btn"><img src="https://cdn0.iconfinder.com/data/icons/superglyph-communication/30/message-sending-1024.png"/></button>
-              </div>
+                <!-- Chat bar to type messages-->
+                <form action="/chat" method="post" name="send-form" id="send-form">
+                    <div id="chat">
+                        <input type="text" placeholder=" Message {{room}}" name="chat-message" />
+                        <!-- The send button for the chat message -->
+                        <button class="btn btn-default" type="submit" name="submit-button" value="send-message" id="send-btn">
+                          <img src="https://cdn0.iconfinder.com/data/icons/superglyph-communication/30/message-sending-1024.png"/>
+                        </button>
+                      
+                    </div>
+                </form>
             </article>
-          </section>
-          <section id="new-channel" hidden>
+        </section>
+        <!-- Hidden section to add a new channel -->
+        <section id="new-channel" hidden>
             <h2>Please enter the name of the new channel:</h2>
-            <form action="" method="post" name="channel-form" id="channel-form">
-              <input id="channel-name" name="channel-name" type="text" />
-              <button type="button" id="back-btn">Cancel</button>
-              <input id="channel-submit" type="submit" value="Submit" />
+            <form action="/chat" method="post" name="channel-form" id="channel-form">
+                <input id="channel-name" name="channel-name" type="text" />
+                <!-- The submit button for the new channel -->
+                <input id="channel-submit" type="submit" name="submit-button" value="submit-channel" />
+                <button type="button" id="back-btn">Cancel</button>
             </form>
-          </section>
-        </main>
-    </body>
+
+        </section>
+    </main>
+</body>
+
+</html>

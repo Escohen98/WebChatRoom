@@ -38,14 +38,20 @@ def login():
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
     global user_name
+    global channel
     # No bypass hackers. Boo.
     if user_name == None:
         return redirect(url_for("bad"))
     
     if request.method == 'POST':
-        print("here")
-        channel_name = request.form.get('channel-name')
-        query.create_channel(channel_name)
+        button_value = request.form.get('submit-button')
+        if button_value == 'submit-channel':
+            channel_name = request.form.get('channel-name')
+            query.create_channel(channel_name)
+        elif button_value == 'send-message':
+            message = request.form.get('chat-message')
+            query.insert_message(query.get_user_id(user_name), query.get_channel_id(channel), message)
+        
 
     # Gets channels from database
     channel_html = ch.get_channel_html(query)

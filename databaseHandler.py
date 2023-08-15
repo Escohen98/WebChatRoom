@@ -132,3 +132,28 @@ class Query():
         if len(result_set) > 0:
             return True
         return False
+    
+    #Helper function for inserting messages
+    def get_channel_id(channel_name):
+        try:
+            conn = sqlite3.connect('chatroom.db')
+            cursor = conn.cursor()
+            cursor.execute("SELECT channel_ID FROM channels WHERE channel_name = ?", (channel_name,))
+            channel_id = cursor.fetchone()
+            conn.close()
+            return channel_id[0] if channel_id else None
+        except Exception as e:
+            print("Error:", e)
+            return None
+
+    def get_user_id(display_name):
+        try:
+            conn = sqlite3.connect('chatroom.db')
+            cursor = conn.cursor()
+            cursor.execute("SELECT user_ID FROM accounts WHERE display_name = ?", (display_name,))
+            user_id = cursor.fetchone()
+            conn.close()
+            return user_id[0] if user_id else None
+        except Exception as e:
+            print("Error:", e)
+            return None

@@ -19,7 +19,6 @@
 
     // Handle form submission
     function handleChannelSubmit(event) {
-        event.preventDefault(); // Prevent the form from submitting and reloading the page
         
         console.log("here"); // This should be printed in the console
         // You can use AJAX or fetch to send the form data to the server if needed
