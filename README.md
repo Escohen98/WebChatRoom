@@ -10,9 +10,10 @@ There's a lot of lacking features and bugs in code [see below]. Probably should 
 Anyway, this is a web chat room for people to communicate with one another - sort of. 
 
 # Setting Up the Database
-1. Create a local db file in the home path
-2. Open .db file: `.open {database name}.db`
-2. Queries:
+1. Download [SQLITE](https://www.sqlite.org/download.html)
+2. Create a local db file in the home path
+3. Open .db file: `.open {database name}.db`
+4. Queries:
     ```sql
     CREATE TABLE accounts (
         user_ID INTEGER PRIMARY KEY AUTOINCREMENT, 
