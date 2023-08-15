@@ -3,6 +3,9 @@ import sqlite3, datetime
 class Query():
 
     #Adds an account to the db
+    #Also checks if account exists
+    #Returns true if account exists
+    #False if not
     def create_account(email, hashed_password, hashed_salt, display_name):
         try:
             # Connect to the database
@@ -10,29 +13,31 @@ class Query():
             cursor = conn.cursor()
             cursor.execute("INSERT INTO accounts (email, hashed_password, hashed_salt, display_name) VALUES (?, ?, ?, ?)", (email, hashed_password, hashed_salt, display_name,))
             conn.commit()
-            return "Success!"
+            return True
         except sqlite3.IntegrityError:
-            return "User already exists."
+            return False
         
-    #Creates a new channel
+    #Adds a new channel to the db
+    #If added, returns True
+    #Otherwise returns false
     def create_channel(channel_name):
         try:
             conn = sqlite3.connect('chatroom.db')
             cursor = conn.cursor()
             cursor.execute("INSERT INTO channels (channel_name) VALUES (?)", (channel_name,))
             conn.commit()
-            return "Success!"
-        except sqlite3.IntegrityError:
-            return "Channel already exists."
+            return True
+        except sqlite3.IntegrityError: #Channel already exists
+            return False
             
 
     #Gets the hashed password of the email if exists
     #Returns hashed_password or None if does not exist.
-    def get_hashed_password(email):
+    def get_hashed_password(display_name):
         try:
             conn = sqlite3.connect('chatroom.db')
             cursor = conn.cursor()
-            cursor.execute("SELECT hashed_password FROM accounts WHERE email = ?", (email,))
+            cursor.execute("SELECT hashed_password FROM accounts WHERE display_name = ?", (display_name,))
             hashed_password = cursor.fetchone()
             conn.close()
             return hashed_password[0] if hashed_password else None
@@ -56,7 +61,30 @@ class Query():
         except Exception as e:
             print("Error:", e)
 
+    #Returns a list of channels
+    def fetch_channels():
+        try:
+            conn = sqlite3.connect('chatroom.db')
+            cursor = conn.cursor()
+
+            query = "SELECT channel_name FROM channels ORDER BY channel_id ASC;"
+            cursor.execute(query)
+            result_set = cursor.fetchall()
+            
+            channel_list = []
+            
+            for row in result_set:
+                channel_list.append(row)
+
+            return channel_list
+        
+        except Exception as e:
+            print(e)
+            return []
+
     #Get all messages from given channel_name in ascending order by timestamp
+    #Returns in a dictionary of the display name and message in ascending order by timestamp
+    #If there's an error, returns empty array b/c there doesn't have to be any messages
     def fetch_messages(channel_name):
         try:
             conn = sqlite3.connect('chatroom.db')
@@ -85,4 +113,22 @@ class Query():
             return messages_list
         except Exception as e:
             print("Error:", e)
-            return "Something went wrong."
+            return []
+        
+    #Checks if display name exists. 
+    #Returns true if yes, false if not. 
+    def display_name_exists(display_name):
+        conn = sqlite3.connect('chatroom.db')
+        cursor = conn.cursor()
+
+        query_name = """
+            SELECT display_name FROM accounts
+            WHERE display_name = ?
+        """
+
+        cursor.execute(query_name, (display_name,))
+        result_set = cursor.fetchall()
+
+        if result_set > 0:
+            return True
+        return False
