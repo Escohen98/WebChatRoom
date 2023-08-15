@@ -37,6 +37,9 @@ Anyway, this is a web chat room for people to communicate with one another.
         );
     ```
 
+# Bugs
+* If someone else logs in, everyone becomes logged in to that account???     
+
 # TO-DO:
 ## I don't know if I will have time to get to any of these. Please have mercy on me for not getting this to work 
 * Set up socket.io so things can auto-update on every user's end when a message is sent
