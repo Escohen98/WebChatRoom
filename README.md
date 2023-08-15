@@ -5,6 +5,8 @@ I also gave up on Firebase. It was a pain in the butt so I decided to revert bac
 
 I am so extremely proud that I got user authentication working and chat messaging in the sense that the system knows who is typing the message and will display accordingly. Muahaha. 
 
+There's a lot of lacking features and bugs in code [see below]. Probably should have focused on the chat functions instead of the user authentication, but I'm pretty proud of that part. I also like working on things sequentially. Sorry this took me a while. If you are viewing this before patching the bugs and completing the to-dos, I am sorry, I ran out out of time 😢
+
 Anyway, this is a web chat room for people to communicate with one another. 
 
 # Setting Up the Database
