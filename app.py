@@ -2,59 +2,59 @@ from flask import Flask, render_template, request, redirect, url_for, redirect, 
 from PasswordManager import PasswordManager as pm
 from DatabaseHandler import Query as query
 from ChatHandler import ChatHandler as ch
+import json
 
 app = Flask(__name__)
-
+    
 user_name = None
 channel = "general"
 
-#Login page
+# Login page
 @app.route('/', methods=['GET', 'POST'])
 def login():
-
-    #Pulls account info from form
+    message = ""
+    # Pulls account info from form
     if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
         username = request.form.get('username')
+        password = request.form.get('password')
 
-        #Checks for display name
-        if query.display_name_exists(username):
-            return render_template('./login.html', message="Username already exists.")
+        # Gets hashed password and salt
+        hashed_password, hashed_salt = pm.get_salt_password(password)
 
-        #Gets hashed password and salt
-        hashed_password, hashed_salt = pm.get_salt_password(username, password)
-
-        #Creates account. If it already exists, checks if correct password
-        if query.create_account(email, hashed_password, hashed_salt, username) or hashed_password == query.get_hashed_password(email):
-            session['user_name'] = username
+        # Creates account. If it already exists, checks if correct password
+        if query.create_account(hashed_password, hashed_salt, username) or hashed_password == query.get_hashed_password(username):
+            global user_name
+            user_name = username
             return redirect(url_for("chat"))
-    return render_template('./login.html', message="Invalid password.")
+        
+         # Checks for display name. 
+         # Technically there is no way to differentiated between password invalid or existing username
+        if query.display_name_exists(username):
+            message="Username already exists or invalid password."
+        
+    return render_template('./login.html', message=message)
 
-#Chat page
+# Chat page
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
-    #No bypass hackers. Boo.
+    global user_name
+    # No bypass hackers. Boo.
     if user_name == None:
         return redirect(url_for("bad"))
-    #Demo purposes only.
+    
+    if request.method == 'POST':
+        print("here")
+        channel_name = request.form.get('channel-name')
+        query.create_channel(channel_name)
+
+    # Gets channels from database
     channel_html = ch.get_channel_html(query)
     
-    #Theoretically should never hit 
+    # Theoretically should never hit unless I force it to
     if channel_html == False:
         return redirect(url_for("fourohfour"))
-    messages = query.fetch_messages()
-    messages = [
-        "<div id='chat-bubble' class='user'>\
-            <h2>You</h2>\
-            <p class='msg-box'>Hi</p>\
-        </div>", 
-        "<div id='chat-bubble' class='other'>\
-            <h2>Bot</h2>\
-            <p class='msg-box'>Hello</p>\
-        </div>"
-    ]
-    return render_template('./chat.html', rooms=channels, msgs=messages, room="demo1")
+    message_html = ch.get_message_html(query, user_name, channel)
+    return render_template('./chat.html', rooms=channel_html, msgs=message_html, room="demo1")
 
 @app.route('/bad')
 def bad():

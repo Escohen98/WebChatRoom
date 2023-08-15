@@ -18,7 +18,7 @@
             <!-- Rooms on the left, then the chatbox on the right-->
             <article id="chat-area">
               <div id="rooms" class="border border-primary">
-                <button type="button" class="btn">+</button>
+                <label><button type="button" class="btn btn-secondary" id="add-btn">+</button> New Channel</label>
                 {%for room in rooms%}
                   {{room|safe}}
                 {%endfor%}
@@ -34,9 +34,17 @@
               <!-- Chat bar to type messages-->
               <div id="chat">
                 <input type="text" placeholder=" Message {{room}}" />
-                <button class="btn btn-default" method="post" id="send-btn"><img src="https://cdn0.iconfinder.com/data/icons/superglyph-communication/30/message-sending-1024.png"/> </button>
+                <button class="btn btn-default" type="submit" method="post" id="send-btn"><img src="https://cdn0.iconfinder.com/data/icons/superglyph-communication/30/message-sending-1024.png"/></button>
               </div>
             </article>
+          </section>
+          <section id="new-channel" hidden>
+            <h2>Please enter the name of the new channel:</h2>
+            <form action="" method="post" name="channel-form" id="channel-form">
+              <input id="channel-name" name="channel-name" type="text" />
+              <button type="button" id="back-btn">Cancel</button>
+              <input id="channel-submit" type="submit" value="Submit" />
+            </form>
           </section>
         </main>
     </body>

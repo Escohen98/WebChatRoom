@@ -12,7 +12,7 @@
 
     //Changes the visibility for the password input
     function toggleVisibility() {
-        input = document.getElementById("passInput");
+        input = document.getElementById("pass-input");
         if (input.type === "password") {
             input.type = "text";
         } else {
