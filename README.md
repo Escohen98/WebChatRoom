@@ -7,7 +7,7 @@ I am so extremely proud that I got user authentication working and chat messagin
 
 There's a lot of lacking features and bugs in code [see below]. Probably should have focused on the chat functions instead of the user authentication, but I'm pretty proud of that part. I also like working on things sequentially. Sorry this took me a while. If you are viewing this before patching the bugs and completing the to-dos, I am sorry, I ran out out of time 😢
 
-Anyway, this is a web chat room for people to communicate with one another. 
+Anyway, this is a web chat room for people to communicate with one another - sort of. 
 
 # Setting Up the Database
 1. Create a local db file in the home path
