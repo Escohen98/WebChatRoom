@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for, redirect, 
 from PasswordManager import PasswordManager as pm
 from DatabaseHandler import Query as query
 from ChatHandler import ChatHandler as ch
-import json
 
 app = Flask(__name__)
     

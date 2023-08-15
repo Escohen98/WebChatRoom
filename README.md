@@ -1,5 +1,9 @@
 # WebChatRoom
-This is the epitomy of what I have been attempting to achieve through these Web Development classes. My goal was to figure out a new portal to display my back-end code. I've successfully learned Python Flask, and can now use Vue.js. Although Vue.js is not displayed in this project, I would say that it was a true success. The main reason vue is not here is due to how it may conflict with Flask. They are fairly similar in concept, at least if running Vue.app, though Flask has a bit of functionality that Vue does not. 
+This is the epitome of what I have been attempting to achieve through these Web Development classes. My goal was to figure out a new portal to display my back-end code. I've successfully learned Python Flask, and can now use Vue.js. Although Vue.js is not displayed in this project, I would say that it was a true success. The main reason vue is not here is due to how it may conflict with Flask.
+
+I also gave up on Firebase. It was a pain in the butt so I decided to revert back to what I am comfortable with; SQL(ITE). Way better. Makes more sense, though I will have to set up sockets for the chat to auto-update without refreshing the page manually. We'll see...
+
+I am so extremely proud that I got user authentication working and chat messaging in the sense that the system knows who is typing the message and will display accordingly. Muahaha. 
 
 Anyway, this is a web chat room for people to communicate with one another. 
 
@@ -10,9 +14,9 @@ Anyway, this is a web chat room for people to communicate with one another.
     ```sql
     CREATE TABLE accounts (
         user_ID INTEGER PRIMARY KEY AUTOINCREMENT, 
-        email TEXT NOT NULL UNIQUE, 
-        password TEXT NOT NULL, 
-        display_name TEXT NOT NULL UNIQUE
+        display_name TEXT NOT NULL UNIQUE,
+        hashed_password TEXT NOT NULL,
+        salt TEXT NOT NULL
         );
     ```
     ```sql
@@ -33,7 +37,15 @@ Anyway, this is a web chat room for people to communicate with one another.
         );
     ```
 
+# TO-DO:
+## I don't know if I will have time to get to any of these. Please have mercy on me for not getting this to work 
+* Set up socket.io so things can auto-update on every user's end when a message is sent
+* Get changing of the channels to work (idk if this is going to work)
+
+## If I want to go above and beyond ...
+* Delete channels and edit channel names
+* Delete account option? Idk. 
+
 # Dependencies
 pip3 install flask<br>
-pip3 install firebase_admin<br>
-pip3 install bcrypt<br>
+pip3 install bcrypt
