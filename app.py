@@ -55,32 +55,35 @@ def login():
         
     return render_template('./login.html', message=message)
 
-# Chat page
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
     user_name = session.get('user_name', None)
     channel = session.get('channel', 'general')  # Defaulting to 'general'
+    
     # No bypass hackers. Boo.
     if user_name == None:
         return redirect(url_for("bad"))
     
     if request.method == 'POST':
         button_value = request.form.get('submit-button')
+        
         if button_value == 'submit-channel':
             channel_name = request.form.get('channel-name')
             query.create_channel(channel_name)
+        
         elif button_value == 'send-message':
             message = request.form.get('chat-message')
             query.insert_message(query.get_channel_id(channel), query.get_user_id(user_name), message)
+        
         elif button_value == 'change-channel':
             channel_name = request.form.get(f"unique-id-{channel}")
             session['channel'] = channel_name
-            #To-Do
 
-    # Gets channels from database
+        # Redirect to chat after processing the POST request
+        return redirect(url_for('chat'))
+
+    # This part executes for GET requests. Fetch the latest state from the database and render it.
     channel_html = ch.get_channel_html(query, channel)
-    
-    # Theoretically should never hit unless I force it to
     if channel_html == False:
         return redirect(url_for("fourohfour"))
     message_html = ch.get_message_html(query, user_name, channel)
