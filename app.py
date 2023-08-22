@@ -2,23 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for, redirect, 
 from PasswordManager import PasswordManager as pm
 from DatabaseHandler import Query as query
 from ChatHandler import ChatHandler as ch
-import json
 
 app = Flask(__name__)
+    
+user_name = None
+channel = "general"
 
-try:
-    # Load the secret key from config.json
-    with open("config.json", "r") as file:
-        config = json.load(file)
-        app.secret_key = config.get("session_key", "default_fallback_key")  # fallback key if not found in config
-
-except Exception as e:
-    print("Failed to get session key")
-    print("Idk, I guess I should shut down the program?")
-    import sys
-    sys.exit()   
-
-    # Login page
+# Login page
 @app.route('/', methods=['GET', 'POST'])
 def login():
     message = ""
@@ -45,7 +35,8 @@ def login():
 
         # Creates account. If it already exists, checks if correct password
         if new_user or db_hashed_password == existing_hashed_password:
-            session['user_name'] = username.strip()
+            global user_name
+            user_name = username.strip()
             return redirect(url_for("chat"))
         
          # Checks for display name. 
@@ -58,8 +49,8 @@ def login():
 # Chat page
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
-    user_name = session.get('user_name', None)
-    channel = session.get('channel', 'general')  # Defaulting to 'general'
+    global user_name
+    global channel
     # No bypass hackers. Boo.
     if user_name == None:
         return redirect(url_for("bad"))
@@ -74,7 +65,6 @@ def chat():
             query.insert_message(query.get_channel_id(channel), query.get_user_id(user_name), message)
         elif button_value == 'change-channel':
             channel_name = request.form.get(f"unique-id-{channel}")
-            session['channel'] = channel_name
             #To-Do
 
     # Gets channels from database
